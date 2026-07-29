@@ -42,6 +42,11 @@ app.get('/', (req, res) => {
 
 // Auto-seed sample data on startup
 async function bootstrap() {
+  if (process.env.VERCEL) {
+    console.log('Running on Vercel. Skipping startup seeding and listener.');
+    return;
+  }
+
   console.log('Bootstrapping Revenue Metrics Service...');
   const stripeIngestor = new StripeIngestor();
   const seeder = new MultiSourceSeeder();
